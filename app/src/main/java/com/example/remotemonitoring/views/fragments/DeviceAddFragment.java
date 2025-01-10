@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -55,11 +56,16 @@ public class DeviceAddFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                devices.addNewDevice(new Device(
-                        binding.name.getText().toString().trim(),
-                        binding.uuid.getText().toString().trim())
-                );
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
+                try {
+                    devices.addNewDevice(new Device(
+                            binding.name.getText().toString().trim(),
+                            binding.uuid.getText().toString().trim())
+                    );
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
+                } catch (IllegalArgumentException e){
+                    Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         };
     }

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -168,12 +169,8 @@ public class DeviceStatisticsFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<Temperature> call, Throwable throwable) {
-                        Log.e("API Failure", "Failure: " + throwable.getMessage());
-//                        try {
-//                            throw throwable;
-//                        } catch (Throwable e) {
-//                            throw new RuntimeException(e);
-//                        }
+                        Toast toast = Toast.makeText(fragment.getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 });
         RemoteMonitoringApplication.INSTANCE
@@ -201,7 +198,8 @@ public class DeviceStatisticsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Temperature>> call, Throwable throwable) {
-                Log.e("API Failure", "Failure: " + throwable.getMessage());
+                Toast toast = Toast.makeText(fragment.getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
         return fragment;

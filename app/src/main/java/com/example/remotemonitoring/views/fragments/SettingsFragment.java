@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -52,6 +53,10 @@ public class SettingsFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(Long.parseLong(binding.interval.getText().toString().trim())<=0){
+                    Toast toast = Toast.makeText(getContext(), "Время не может быть отрицательным", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 RemoteMonitoringApplication.INSTANCE
                         .getRemoteMonitoringWebClient()
                         .saveNewConfiguration(
@@ -69,7 +74,8 @@ public class SettingsFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<DeviceConfiguration> call, Throwable throwable) {
-
+                                Toast toast = Toast.makeText(getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
+                                toast.show();
                             }
                         });
 

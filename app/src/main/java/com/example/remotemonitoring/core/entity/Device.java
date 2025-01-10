@@ -3,8 +3,12 @@ package com.example.remotemonitoring.core.entity;
 public class Device {
 
     public Device(String name, String uuid) {
-        this.name = (name!=null)?name:"name";
-        this.uuid = (uuid!=null)?uuid:"uuid";
+        if(name != null && uuid != null && !name.isEmpty() && uuid.isEmpty()) {
+            this.name = name;
+            this.uuid = uuid;
+        } else {
+            throw new IllegalArgumentException("Параметры не могут быть пустыми");
+        }
     }
 
     private String name;
