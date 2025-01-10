@@ -8,13 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentFactory;
 
 import com.example.remotemonitoring.R;
 import com.example.remotemonitoring.RemoteMonitoringApplication;
 import com.example.remotemonitoring.databinding.FragmentSettingsBinding;
 import com.example.remotemonitoring.webclients.model.DeviceConfiguration;
-import com.github.terrakok.cicerone.androidx.FragmentScreen;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,24 +73,10 @@ public class SettingsFragment extends Fragment {
                             }
                         });
 
-                RemoteMonitoringApplication.INSTANCE.getRouter().replaceScreen(new FragmentScreen() {
-                    @Override
-                    public boolean getClearContainer() {
-                        return false;
-                    }
-
-                    @NonNull
-                    @Override
-                    public Fragment createFragment(@NonNull FragmentFactory fragmentFactory) {
-                        return DeviceStatisticsFragment.newInstance(requireArguments().getString(UUID));
-                    }
-
-                    @NonNull
-                    @Override
-                    public String getScreenKey() {
-                        return "DeviceStatisticsFragment";
-                    }
-                });
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container,DeviceStatisticsFragment.newInstance(requireArguments().getString(UUID)))
+                        .addToBackStack(null)
+                        .commit();
             }
         };
     }
@@ -101,24 +85,11 @@ public class SettingsFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RemoteMonitoringApplication.INSTANCE.getRouter().replaceScreen(new FragmentScreen() {
-                    @Override
-                    public boolean getClearContainer() {
-                        return false;
-                    }
-
-                    @NonNull
-                    @Override
-                    public Fragment createFragment(@NonNull FragmentFactory fragmentFactory) {
-                        return DeviceStatisticsFragment.newInstance(requireArguments().getString(UUID));
-                    }
-
-                    @NonNull
-                    @Override
-                    public String getScreenKey() {
-                        return "DeviceStatisticsFragment";
-                    }
-                });
+                Log.v("UUID", requireArguments().getString(UUID));
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container,DeviceStatisticsFragment.newInstance(requireArguments().getString(UUID)))
+                        .addToBackStack(null)
+                        .commit();
             }
         };
     }

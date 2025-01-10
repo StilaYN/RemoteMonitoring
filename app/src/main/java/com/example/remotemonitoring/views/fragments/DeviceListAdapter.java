@@ -7,15 +7,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentFactory;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.remotemonitoring.R;
-import com.example.remotemonitoring.RemoteMonitoringApplication;
 import com.example.remotemonitoring.core.entity.Device;
 import com.example.remotemonitoring.databinding.CardviewsDeviceBinding;
-import com.github.terrakok.cicerone.androidx.FragmentScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +34,11 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.De
 
     List<Device> devices;
 
-    DeviceListAdapter(List<Device> devices){
-        this.devices = Objects.requireNonNullElseGet(devices, ArrayList::new);
+    FragmentManager fragmentManager;
 
+    DeviceListAdapter(List<Device> devices, FragmentManager fragmentManager){
+        this.devices = Objects.requireNonNullElseGet(devices, ArrayList::new);
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -51,24 +50,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.De
     public void onClick(View v) {
         Device device = (Device)v.getTag();
 
-        RemoteMonitoringApplication.INSTANCE.getRouter().replaceScreen(new FragmentScreen() {
-            @Override
-            public boolean getClearContainer() {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            public Fragment createFragment(@NonNull FragmentFactory fragmentFactory) {
-                return DeviceStatisticsFragment.newInstance(device.getUuid());
-            }
-
-            @NonNull
-            @Override
-            public String getScreenKey() {
-                return "DeviceStatisticsFragment";
-            }
-        });
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, DeviceStatisticsFragment.newInstance(device.getUuid())).commit();
     }
 
     @NonNull

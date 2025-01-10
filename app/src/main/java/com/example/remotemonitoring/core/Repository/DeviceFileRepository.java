@@ -28,6 +28,12 @@ public class DeviceFileRepository implements DeviceRepository{
     }
 
     @Override
+    public void deleteDevice(String uuid) {
+        devices.remove(getDeviceByUuid(uuid));
+        RemoteMonitoringApplication.FILE_SERVICE.write(FileNames.DEVICE_LIST, devices);
+    }
+
+    @Override
     public Device getDeviceByUuid(String uuid) {
         return devices.stream()
                 .filter(device -> {return device.getUuid().equals(uuid);})

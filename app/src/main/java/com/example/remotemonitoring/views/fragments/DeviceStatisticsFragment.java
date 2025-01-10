@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentFactory;
 
 import com.example.remotemonitoring.R;
 import com.example.remotemonitoring.RemoteMonitoringApplication;
@@ -21,7 +20,6 @@ import com.example.remotemonitoring.webclients.model.Temperature;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.terrakok.cicerone.androidx.FragmentScreen;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -51,6 +49,7 @@ public class DeviceStatisticsFragment extends Fragment {
 
         binding.settings.setOnClickListener(openSettings());
         binding.back.setOnClickListener(back());
+        binding.delete.setOnClickListener(delete());
 
         return binding.getRoot();
     }
@@ -104,24 +103,9 @@ public class DeviceStatisticsFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RemoteMonitoringApplication.INSTANCE.getRouter().navigateTo(new FragmentScreen() {
-                    @Override
-                    public boolean getClearContainer() {
-                        return false;
-                    }
-
-                    @NonNull
-                    @Override
-                    public Fragment createFragment(@NonNull FragmentFactory fragmentFactory) {
-                        return SettingsFragment.newInstance(requireArguments().getString("uuid"));
-                    }
-
-                    @NonNull
-                    @Override
-                    public String getScreenKey() {
-                        return "DeviceStatisticsFragment";
-                    }
-                });
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, SettingsFragment.newInstance(requireArguments().getString("uuid")))
+                        .commit();
             }
         };
     }
@@ -130,24 +114,17 @@ public class DeviceStatisticsFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RemoteMonitoringApplication.INSTANCE.getRouter().replaceScreen(new FragmentScreen() {
-                    @Override
-                    public boolean getClearContainer() {
-                        return false;
-                    }
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
+            }
+        };
+    }
 
-                    @NonNull
-                    @Override
-                    public Fragment createFragment(@NonNull FragmentFactory fragmentFactory) {
-                        return MainFragment.newInstance();
-                    }
-
-                    @NonNull
-                    @Override
-                    public String getScreenKey() {
-                        return "DeviceStatisticsFragment";
-                    }
-                });
+    private View.OnClickListener delete() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RemoteMonitoringApplication.INSTANCE.getDeviceRepository().deleteDevice(requireArguments().getString("uuid"));
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
             }
         };
     }

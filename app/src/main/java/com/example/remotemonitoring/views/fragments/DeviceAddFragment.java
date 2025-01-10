@@ -5,16 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentFactory;
 
 import com.example.remotemonitoring.R;
 import com.example.remotemonitoring.RemoteMonitoringApplication;
 import com.example.remotemonitoring.core.Repository.DeviceRepository;
 import com.example.remotemonitoring.core.entity.Device;
 import com.example.remotemonitoring.databinding.FragmentAddDeviceBinding;
-import com.github.terrakok.cicerone.androidx.FragmentScreen;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,24 +46,7 @@ public class DeviceAddFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RemoteMonitoringApplication.INSTANCE.getRouter().replaceScreen(new FragmentScreen() {
-                    @Override
-                    public boolean getClearContainer() {
-                        return false;
-                    }
-
-                    @NonNull
-                    @Override
-                    public Fragment createFragment(@NonNull FragmentFactory fragmentFactory) {
-                        return MainFragment.newInstance();
-                    }
-
-                    @NonNull
-                    @Override
-                    public String getScreenKey() {
-                        return "MainFragment";
-                    }
-                });
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
             }
         };
     }
@@ -79,24 +59,7 @@ public class DeviceAddFragment extends Fragment {
                         binding.name.getText().toString().trim(),
                         binding.uuid.getText().toString().trim())
                 );
-                RemoteMonitoringApplication.INSTANCE.getRouter().replaceScreen(new FragmentScreen() {
-                    @Override
-                    public boolean getClearContainer() {
-                        return false;
-                    }
-
-                    @NonNull
-                    @Override
-                    public Fragment createFragment(@NonNull FragmentFactory fragmentFactory) {
-                        return MainFragment.newInstance();
-                    }
-
-                    @NonNull
-                    @Override
-                    public String getScreenKey() {
-                        return "MainFragment";
-                    }
-                });
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
             }
         };
     }

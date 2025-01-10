@@ -8,6 +8,8 @@ public interface DeviceRepository {
 
     void addNewDevice(Device device);
 
+    void deleteDevice(String uuid);
+
     Device getDeviceByUuid(String uuid);
 
     List<Device> getAllDevice();
