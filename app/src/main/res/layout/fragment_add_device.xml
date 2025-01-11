@@ -20,7 +20,7 @@
             android:id="@+id/toolbar3"
             android:layout_width="fill_parent"
             android:layout_height="80dp"
-            android:background="?attr/colorPrimary"
+            android:background="@color/purple"
             android:minHeight="?attr/actionBarSize"
             android:padding="10dp"
             android:theme="?attr/actionBarTheme"
@@ -91,7 +91,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar3"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            app:rippleColor="@color/purple" />
 
         <ImageButton
             android:id="@+id/back"
