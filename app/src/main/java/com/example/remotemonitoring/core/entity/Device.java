@@ -3,7 +3,7 @@ package com.example.remotemonitoring.core.entity;
 public class Device {
 
     public Device(String name, String uuid) {
-        if(name != null && uuid != null && !name.isEmpty() && uuid.isEmpty()) {
+        if(name != null && uuid != null && !name.isEmpty() && !uuid.isEmpty()) {
             this.name = name;
             this.uuid = uuid;
         } else {
