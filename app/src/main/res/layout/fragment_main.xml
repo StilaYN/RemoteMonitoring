@@ -17,14 +17,16 @@
 
         <ImageButton
             android:id="@+id/addButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="#00FFFFFF"
+            android:foreground="@drawable/plus"
             android:src="@drawable/circle_shape"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@drawable/circle_shape" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar2"

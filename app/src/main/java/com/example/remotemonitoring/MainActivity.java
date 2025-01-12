@@ -1,6 +1,7 @@
 package com.example.remotemonitoring;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -10,6 +11,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.remotemonitoring.views.fragments.MainFragment;
 import com.github.terrakok.cicerone.Navigator;
 import com.github.terrakok.cicerone.androidx.AppNavigator;
+
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        SystemClock.sleep(TimeUnit.MILLISECONDS.toMillis(300));
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
 //        RemoteMonitoringApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
 //        if(savedInstanceState == null){
