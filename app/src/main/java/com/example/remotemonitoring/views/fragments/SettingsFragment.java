@@ -76,8 +76,10 @@ public class SettingsFragment extends Fragment implements BackPressedListener {
 
                             @Override
                             public void onFailure(Call<DeviceConfiguration> call, Throwable throwable) {
-                                Toast toast = Toast.makeText(getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
-                                toast.show();
+                                if (isAdded()) {
+                                    Toast toast = Toast.makeText(getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                }
                             }
                         });
 
@@ -129,12 +131,10 @@ public class SettingsFragment extends Fragment implements BackPressedListener {
 
                     @Override
                     public void onFailure(Call<DeviceConfiguration> call, Throwable throwable) {
-                        Log.e("API Failure", "Failure: " + throwable.getMessage());
-//                        try {
-//                            throw throwable;
-//                        } catch (Throwable e) {
-//                            throw new RuntimeException(e);
-//                        }
+                        if (fragment.isAdded()) {
+                            Toast toast = Toast.makeText(fragment.getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 });
         args.putString(UUID, uuid);

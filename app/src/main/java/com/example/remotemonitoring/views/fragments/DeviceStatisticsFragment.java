@@ -176,8 +176,10 @@ public class DeviceStatisticsFragment extends Fragment implements BackPressedLis
 
                     @Override
                     public void onFailure(Call<Temperature> call, Throwable throwable) {
-                        Toast toast = Toast.makeText(fragment.getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
-                        toast.show();
+                        if (fragment.isAdded()) {
+                            Toast toast = Toast.makeText(fragment.getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 });
         RemoteMonitoringApplication.INSTANCE
@@ -205,8 +207,10 @@ public class DeviceStatisticsFragment extends Fragment implements BackPressedLis
 
             @Override
             public void onFailure(Call<List<Temperature>> call, Throwable throwable) {
-                Toast toast = Toast.makeText(fragment.getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
-                toast.show();
+                if(fragment.isAdded()) {
+                    Toast toast = Toast.makeText(fragment.getContext(), "Ошибка сервера", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
         return fragment;
