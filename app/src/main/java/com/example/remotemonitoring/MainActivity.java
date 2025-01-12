@@ -8,6 +8,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.remotemonitoring.views.fragments.BackPressedListener;
 import com.example.remotemonitoring.views.fragments.MainFragment;
 import com.github.terrakok.cicerone.Navigator;
 import com.github.terrakok.cicerone.androidx.AppNavigator;
@@ -17,6 +18,12 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     private Navigator navigator = new AppNavigator(this, R.id.main);
+
+    private static BackPressedListener focusListener;
+
+    public static void changeFocusListener(BackPressedListener listener) {
+        focusListener = listener;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,27 +36,6 @@ public class MainActivity extends AppCompatActivity {
         });
         SystemClock.sleep(TimeUnit.MILLISECONDS.toMillis(300));
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
-//        RemoteMonitoringApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
-//        if(savedInstanceState == null){
-//            RemoteMonitoringApplication.INSTANCE.getRouter().replaceScreen(new FragmentScreen() {
-//                @Override
-//                public boolean getClearContainer() {
-//                    return true;
-//                }
-//
-//                @NonNull
-//                @Override
-//                public Fragment createFragment(@NonNull FragmentFactory fragmentFactory) {
-//                    return MainFragment.newInstance();
-//                }
-//
-//                @NonNull
-//                @Override
-//                public String getScreenKey() {
-//                    return "MainFragment";
-//                }
-//            });
-//        }
     }
 
     @Override
@@ -62,5 +48,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         RemoteMonitoringApplication.INSTANCE.getNavigatorHolder().removeNavigator();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (focusListener != null) {
+            focusListener.OnBackPressed();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

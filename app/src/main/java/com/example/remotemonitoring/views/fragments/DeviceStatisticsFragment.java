@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.remotemonitoring.MainActivity;
 import com.example.remotemonitoring.R;
 import com.example.remotemonitoring.RemoteMonitoringApplication;
 import com.example.remotemonitoring.core.Repository.DeviceRepository;
@@ -31,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DeviceStatisticsFragment extends Fragment {
+public class DeviceStatisticsFragment extends Fragment implements BackPressedListener{
     private FragmentDeviceStatisticsBinding binding;
 
     private static final DeviceRepository devicesRepository = RemoteMonitoringApplication.INSTANCE.getDeviceRepository();
@@ -43,6 +44,7 @@ public class DeviceStatisticsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        MainActivity.changeFocusListener(this);
         binding = FragmentDeviceStatisticsBinding.inflate(inflater, container, false);
 
         binding.name.setText(getNameValue());
@@ -118,6 +120,11 @@ public class DeviceStatisticsFragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
             }
         };
+    }
+
+    @Override
+    public void OnBackPressed() {
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
     }
 
     private View.OnClickListener delete() {

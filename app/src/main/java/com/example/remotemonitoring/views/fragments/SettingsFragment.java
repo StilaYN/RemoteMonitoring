@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.remotemonitoring.MainActivity;
 import com.example.remotemonitoring.R;
 import com.example.remotemonitoring.RemoteMonitoringApplication;
 import com.example.remotemonitoring.databinding.FragmentSettingsBinding;
@@ -24,7 +25,7 @@ import retrofit2.Response;
  * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements BackPressedListener {
 
     private static final String UUID = "uuid";
 
@@ -41,6 +42,7 @@ public class SettingsFragment extends Fragment {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         binding.save.setOnClickListener(save());
         binding.back.setOnClickListener(back());
+        MainActivity.changeFocusListener(this);
         return binding.getRoot();
     }
     public void updateUI(long interval, int minT, int maxT) {
@@ -94,14 +96,17 @@ public class SettingsFragment extends Fragment {
                 Log.v("UUID", requireArguments().getString(UUID));
                 getFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container,DeviceStatisticsFragment.newInstance(requireArguments().getString(UUID)))
-                        .addToBackStack(null)
                         .commit();
             }
         };
     }
 
-
-
+    @Override
+    public void OnBackPressed() {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container,DeviceStatisticsFragment.newInstance(requireArguments().getString(UUID)))
+                .commit();
+    }
 
     public static SettingsFragment newInstance(String uuid) {
         SettingsFragment fragment = new SettingsFragment();

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.remotemonitoring.MainActivity;
 import com.example.remotemonitoring.R;
 import com.example.remotemonitoring.RemoteMonitoringApplication;
 import com.example.remotemonitoring.core.Repository.DeviceRepository;
@@ -19,7 +20,7 @@ import com.example.remotemonitoring.databinding.FragmentAddDeviceBinding;
  * Use the {@link DeviceAddFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DeviceAddFragment extends Fragment {
+public class DeviceAddFragment extends Fragment implements BackPressedListener {
 
     private final DeviceRepository devices = RemoteMonitoringApplication.INSTANCE.getDeviceRepository();
 
@@ -37,6 +38,7 @@ public class DeviceAddFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        MainActivity.changeFocusListener(this);
         binding = FragmentAddDeviceBinding.inflate(inflater, container, false);
         binding.save.setOnClickListener(save());
         binding.back.setOnClickListener(back());
@@ -50,6 +52,11 @@ public class DeviceAddFragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
             }
         };
+    }
+
+    @Override
+    public void OnBackPressed() {
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, MainFragment.newInstance()).commit();
     }
 
     private View.OnClickListener save(){
